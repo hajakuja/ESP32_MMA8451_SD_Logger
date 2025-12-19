@@ -1,0 +1,103 @@
+* { box-sizing: border-box; }
+:root {
+  --bg: #0b0d10;
+  --fg: #e8eef6;
+  --muted: #9fb0c0;
+  --card: #141922;
+  --line: #273243;
+  --primary: #3aa0ff;
+  --danger: #ff4d4d;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+header, footer {
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--line);
+}
+footer { border-top: 1px solid var(--line); border-bottom: none; color: var(--muted); }
+h1 { margin: 0 0 6px 0; font-size: 20px; }
+.sub { color: var(--muted); font-size: 13px; }
+main {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+@media (min-width: 900px) {
+  main { grid-template-columns: 1fr 1fr; }
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+h2 { margin: 0 0 10px 0; font-size: 16px; }
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+label { color: var(--muted); font-size: 13px; }
+input {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #0f131a;
+  color: var(--fg);
+  outline: none;
+}
+.buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+button {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0f131a;
+  color: var(--fg);
+  cursor: pointer;
+}
+button.primary { border-color: rgba(58,160,255,.6); background: rgba(58,160,255,.12); }
+button.danger { border-color: rgba(255,77,77,.6); background: rgba(255,77,77,.12); }
+.status {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,.15);
+  font-size: 13px;
+}
+.status .k { color: var(--muted); display: inline-block; width: 90px; }
+.hint { color: var(--muted); font-size: 12px; margin: 10px 0 0; }
+.files { margin-top: 10px; display: grid; gap: 10px; }
+.fileRow {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+.fileRow .meta { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.fileRow .actions { display: flex; gap: 8px; }
+.fileRow a, .fileRow button {
+  font-size: 12px;
+  padding: 8px 10px;
+  text-decoration: none;
+}
+.fileRow a {
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #0f131a;
+  color: var(--fg);
+}

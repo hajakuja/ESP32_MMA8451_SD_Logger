@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESP32 Acc Logger</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>ESP32 MMA8451 → SD CSV Logger</h1>
+    <div class="sub">Columns: <code>timedelta_ms, Xacc, Yacc, Zacc</code> (m/s²)</div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Control</h2>
+
+      <div class="row">
+        <label for="filename">File name</label>
+        <input id="filename" type="text" value="log.csv" placeholder="e.g. walk_test.csv" />
+      </div>
+
+      <div class="row">
+        <label for="interval">Sample interval (ms)</label>
+        <input id="interval" type="number" min="5" max="5000" step="1" value="20" />
+      </div>
+
+      <div class="buttons">
+        <button id="startBtn" class="primary">Start</button>
+        <button id="stopBtn">Stop</button>
+        <button id="refreshBtn">Refresh</button>
+      </div>
+
+      <div class="status" id="status">
+        <div><span class="k">Recording:</span> <span id="rec">?</span></div>
+        <div><span class="k">File:</span> <span id="file">-</span></div>
+        <div><span class="k">Samples:</span> <span id="samples">-</span></div>
+        <div><span class="k">Interval:</span> <span id="intv">-</span> ms</div>
+        <div><span class="k">WiFi:</span> <span id="mode">-</span> <span id="ip">-</span></div>
+      </div>
+
+      <p class="hint">
+        Tip: If a file already exists, the logger auto-creates <code>name_001.csv</code>, <code>name_002.csv</code>, ...
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Files on SD</h2>
+      <div class="buttons">
+        <button id="listBtn">List files</button>
+      </div>
+      <div id="files" class="files"></div>
+      <p class="hint">Download opens the file directly. Delete requires recording to be stopped.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Served from LittleFS</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
