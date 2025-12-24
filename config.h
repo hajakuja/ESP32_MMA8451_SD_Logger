@@ -4,17 +4,17 @@
 
 // ----------------- I2C (MMA8451) -----------------
 // Default ESP32 I2C pins are often SDA=21, SCL=22.
-static constexpr int I2C_SDA_PIN = 17;
-static constexpr int I2C_SCL_PIN = 18;
+static constexpr int I2C_SDA_PIN = 5;
+static constexpr int I2C_SCL_PIN = 16;
 
 // ----------------- SD (SPI) -----------------
 // VSPI defaults on ESP32: SCK=18, MISO=19, MOSI=23 (common on dev boards)
-static constexpr int SPI_SCK_PIN  = 18;
-static constexpr int SPI_MISO_PIN = 19;
-static constexpr int SPI_MOSI_PIN = 23;
+static constexpr int SPI_SCK_PIN  = 25;
+static constexpr int SPI_MISO_PIN = 27;
+static constexpr int SPI_MOSI_PIN = 26;
 
 // SD card chip-select pin (commonly 5 or 15 depending on module)
-static constexpr int SD_CS_PIN = 5;
+static constexpr int SD_CS_PIN = 33;
 
 // SD SPI frequency (Hz). 20MHz is usually safe for many modules.
 static constexpr uint32_t SD_SPI_FREQ = 20 * 1000 * 1000;

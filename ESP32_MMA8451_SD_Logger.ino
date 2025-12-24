@@ -150,11 +150,9 @@ static bool startRecordingInternal(const String &requestedName, uint32_t interva
   String sanitized = sanitizeFilename(requestedName);
   String unique = pickUniqueFilename(sanitized);
   String path = "/" + unique;
-
-  portENTER_CRITICAL(&g_mux);
+  
   g_logFile = SD.open(path.c_str(), FILE_WRITE);
-  portEXIT_CRITICAL(&g_mux);
-
+  
   if (!g_logFile) {
     outErr = "Failed to open file on SD";
     return false;
@@ -168,11 +166,8 @@ static bool startRecordingInternal(const String &requestedName, uint32_t interva
   g_samples = 0;
 
   // CSV header
-  portENTER_CRITICAL(&g_mux);
   g_logFile.println("timedelta_ms,Xacc,Yacc,Zacc");
   g_logFile.flush();
-  portEXIT_CRITICAL(&g_mux);
-
   g_recording = true;
   return true;
 }
@@ -180,12 +175,10 @@ static bool startRecordingInternal(const String &requestedName, uint32_t interva
 static void stopRecordingInternal() {
   if (!g_recording) return;
 
-  portENTER_CRITICAL(&g_mux);
   if (g_logFile) {
     g_logFile.flush();
     g_logFile.close();
   }
-  portEXIT_CRITICAL(&g_mux);
 
   g_recording = false;
   g_currentFile = "";
@@ -306,7 +299,7 @@ static bool initAccel() {
 
 static bool initSd() {
   SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SD_CS_PIN);
-  if (!SD.begin(SD_CS_PIN, SPI, SD_SPI_FREQ)) {
+  if (!SD.begin(SD_CS_PIN)) {
     Serial.println("ERROR: SD.begin() failed. Check wiring/CS/power.");
     return false;
   }
@@ -395,23 +388,22 @@ void loop() {
   float ax = event.acceleration.x;
   float ay = event.acceleration.y;
   float az = event.acceleration.z;
-  Serial.print("X: \t"); Serial.print(event.acceleration.x); Serial.print("\t");
-  Serial.print("Y: \t"); Serial.print(event.acceleration.y); Serial.print("\t");
-  Serial.print("Z: \t"); Serial.print(event.acceleration.z); Serial.print("\t");
-  Serial.println("m/s^2 ");
+  // Serial.print("X: \t"); Serial.print(event.acceleration.x); Serial.print("\t");
+  // Serial.print("Y: \t"); Serial.print(event.acceleration.y); Serial.print("\t");
+  // Serial.print("Z: \t"); Serial.print(event.acceleration.z); Serial.print("\t");
+  // Serial.println("m/s^2 ");
+  
   // Write CSV line
-  portENTER_CRITICAL(&g_mux);
   if (g_logFile) {
     g_logFile.printf("%lu,%.6f,%.6f,%.6f\n", (unsigned long)dt, ax, ay, az);
     g_samples++;
   }
-  portEXIT_CRITICAL(&g_mux);
 
   // Periodic flush to reduce data loss risk
   if ((now - g_lastFlushMs) >= FILE_FLUSH_MS) {
     g_lastFlushMs = now;
-    portENTER_CRITICAL(&g_mux);
+  
     if (g_logFile) g_logFile.flush();
-    portEXIT_CRITICAL(&g_mux);
+
   }
 }
