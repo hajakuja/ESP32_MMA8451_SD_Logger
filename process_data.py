@@ -105,7 +105,7 @@ def main():
     fy, my = fft_spectrum(ay, fs_hz)
     fz, mz = fft_spectrum(az, fs_hz)
     fm, mm = fft_spectrum(amag, fs_hz)
-
+    # skip the first two samples since they skew the results
     spectra = [
         ("Xacc", fx[2:], mx[2:]),
         ("Yacc", fy[2:], my[2:]),
@@ -124,30 +124,30 @@ def main():
             axis.set_xlim(0, MAX_FREQ_HZ)
     axes_fft[-1].set_xlabel("Frequency (Hz)")
 
-    # --- FFT spectra (DC removed, log scale) ---
-    fx_d, mx_d = fft_spectrum(ax, fs_hz, remove_dc=True)
-    fy_d, my_d = fft_spectrum(ay, fs_hz, remove_dc=True)
-    fz_d, mz_d = fft_spectrum(az, fs_hz, remove_dc=True)
-    fm_d, mm_d = fft_spectrum(amag, fs_hz, remove_dc=True)
+    # # --- FFT spectra (DC removed, log scale) ---
+    # fx_d, mx_d = fft_spectrum(ax, fs_hz, remove_dc=True)
+    # fy_d, my_d = fft_spectrum(ay, fs_hz, remove_dc=True)
+    # fz_d, mz_d = fft_spectrum(az, fs_hz, remove_dc=True)
+    # fm_d, mm_d = fft_spectrum(amag, fs_hz, remove_dc=True)
 
-    spectra_dc = [
-        ("Xacc", fx_d, mx_d),
-        ("Yacc", fy_d, my_d),
-        ("Zacc", fz_d, mz_d),
-        ("AccMag", fm_d, mm_d),
-    ]
+    # spectra_dc = [
+    #     ("Xacc", fx_d, mx_d),
+    #     ("Yacc", fy_d, my_d),
+    #     ("Zacc", fz_d, mz_d),
+    #     ("AccMag", fm_d, mm_d),
+    # ]
 
-    eps = np.finfo(float).eps
-    fig_fft_dc, axes_fft_dc = plt.subplots(len(spectra_dc), 1, sharex=True)
-    fig_fft_dc.suptitle("FFT Spectrum (DC Removed, Log Scale)")
-    for axis, (name, freq, mag) in zip(axes_fft_dc, spectra_dc):
-        axis.semilogy(freq, mag + eps)
-        axis.set_title(name)
-        axis.set_ylabel("Amplitude (approx)")
-        axis.grid(True, alpha=0.3, which="both")
-        if MAX_FREQ_HZ is not None:
-            axis.set_xlim(0, MAX_FREQ_HZ)
-    axes_fft_dc[-1].set_xlabel("Frequency (Hz)")
+    # eps = np.finfo(float).eps
+    # fig_fft_dc, axes_fft_dc = plt.subplots(len(spectra_dc), 1, sharex=True)
+    # fig_fft_dc.suptitle("FFT Spectrum (DC Removed, Log Scale)")
+    # for axis, (name, freq, mag) in zip(axes_fft_dc, spectra_dc):
+    #     axis.semilogy(freq, mag + eps)
+    #     axis.set_title(name)
+    #     axis.set_ylabel("Amplitude (approx)")
+    #     axis.grid(True, alpha=0.3, which="both")
+    #     if MAX_FREQ_HZ is not None:
+    #         axis.set_xlim(0, MAX_FREQ_HZ)
+    # axes_fft_dc[-1].set_xlabel("Frequency (Hz)")
 
     plt.show()
 
